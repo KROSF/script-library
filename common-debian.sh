@@ -81,11 +81,11 @@ fi
 # Create or update a non-root user to match UID/GID - see https://aka.ms/vscode-remote/containers/non-root-user.
 if id -u $USERNAME > /dev/null 2>&1; then
     # User exists, update if needed
-    if [ "$USER_GID" != "$(id -G $USERNAME)" ]; then 
+    if [ "$USER_GID" != "$(id -G $USERNAME)" ]; then
         groupmod --gid $USER_GID $USERNAME 
         usermod --gid $USER_GID $USERNAME
     fi
-    if [ "$USER_UID" != "$(id -u $USERNAME)" ]; then 
+    if [ "$USER_UID" != "$(id -u $USERNAME)" ]; then
         usermod --uid $USER_UID $USERNAME
     fi
 else
@@ -104,11 +104,10 @@ echo "export PATH=\$PATH:\$HOME/.local/bin" | tee -a /root/.bashrc >> /home/$USE
 chown $USER_UID:$USER_GID /home/$USERNAME/.bashrc
 
 # Optionally install and configure zsh
-if [ "$INSTALL_ZSH" = "true" ] && [ ! -d "/root/.oh-my-zsh" ]; then 
+if [ "$INSTALL_ZSH" = "true" ]; then
     apt-get install -y zsh
     curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | ZIM_HOME=/home/$USERNAME/.zim HOME=/home/$USERNAME zsh
     curl -fsSL https://starship.rs/install.sh | bash -s -- -y
-    echo 'eval "$(starship init zsh)"' >> /home/$USERNAME/.zshrc
+    echo "export PATH=\$PATH:\$HOME/.local/bin\neval \"\$(starship init zsh)\"" >> /home/$USERNAME/.zshrc
     chown -R $USER_UID:$USER_GID /home/$USERNAME/.z*
 fi
-
