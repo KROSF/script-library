@@ -108,6 +108,6 @@ if [ "$INSTALL_ZSH" = "true" ]; then
     apt-get install -y zsh
     curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | ZIM_HOME=/home/$USERNAME/.zim HOME=/home/$USERNAME zsh
     curl -fsSL https://starship.rs/install.sh | bash -s -- -y
-    echo "export PATH=\$PATH:\$HOME/.local/bin\neval \"\$(starship init zsh)\"" >> /home/$USERNAME/.zshrc
+    echo -e "export PATH=\$PATH:\$HOME/.local/bin\neval \"\$(starship init zsh)\"" >> /home/$USERNAME/.zshrc
     chown -R $USER_UID:$USER_GID /home/$USERNAME/.z*
 fi
